@@ -8,43 +8,45 @@ class App extends Component {
     this.state = {
       squares: ["", "", "", "", "", "", "", "", ""],
       isX: true,
-      count: 0
+      count: 0,
     };
   }
 
   clickxo = (index) => {
     const { squares, isX, count } = this.state;
-    if (squares[index] || findWinner(squares)){
+    if (squares[index] || findWinner(squares)) {
       return;
     }
     this.setState({
       isX: !this.state.isX,
-    count: count + 1
+      count: count + 1,
     });
     squares[index] = isX ? "X" : "O";
   };
 
+  restartGame = () => {
+    this.setState({
+      squares: ["", "", "", "", "", "", "", "", ""],
+    });
+  };
+
   render() {
-    var status = 'Next Player: ' + (this.state.isX ? 'X' : 'O')
+    var status = "Next Player: " + (this.state.isX ? "X" : "O");
     const winner = findWinner(this.state.squares);
-    console.log('winner', winner)
-    if (winner){
-      status = 'Winner: ' + winner;
+    console.log("winner", winner);
+    if (winner) {
+      status = "Winner: " + winner;
+    } else if (winner) {
+      status = "Next player: " + (this.state.isX ? "X" : "O");
+    } else {
     }
-    else if( winner){
-      status = 'Next player: ' + (this.state.isX ? 'X' : 'O');
-    }else {
-    
-    }
-  
+
     return (
       <>
-      
         <h1>Tic Tac Toe</h1>
-        <div className = "status">{this.state.count >= this.state.squares.length? <p>
-          Draw
-        </p>: status
-        }</div>
+        <div className="status">
+          {this.state.count >= this.state.squares.length ? <p>Draw</p> : status}
+        </div>
         <div className="gameBaord">
           {/* 
         to get the 3X3 squares,
@@ -61,7 +63,7 @@ class App extends Component {
             );
           })}
         </div>
-        <p>Turn: {this.state.isX ? "X" : "O"}</p>
+        <button onClick={this.restartGame}>Restart Game</button>
       </>
     );
   }
@@ -79,13 +81,11 @@ function findWinner(squares) {
     [2, 4, 6],
   ];
   for (let i = 0; i < lines.length; i++) {
-    const [a, b,  c] = lines[i];
+    const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a];
-    } 
+    }
   }
-  return null ;
+  return null;
 }
 export default App;
-
-
