@@ -8,16 +8,18 @@ class App extends Component {
     this.state = {
       squares: ["", "", "", "", "", "", "", "", ""],
       isX: true,
+      count: 0
     };
   }
 
   clickxo = (index) => {
-    const { squares, isX } = this.state;
+    const { squares, isX, count } = this.state;
     if (squares[index] || findWinner(squares)){
       return;
     }
     this.setState({
       isX: !this.state.isX,
+    count: count + 1
     });
     squares[index] = isX ? "X" : "O";
   };
@@ -25,16 +27,24 @@ class App extends Component {
   render() {
     var status = 'Next Player: ' + (this.state.isX ? 'X' : 'O')
     const winner = findWinner(this.state.squares);
+    console.log('winner', winner)
     if (winner){
       status = 'Winner: ' + winner;
-    } else {
-      status = 'Next player: ' + (this.state.isX ? 'X' : 'O');
     }
+    else if( winner){
+      status = 'Next player: ' + (this.state.isX ? 'X' : 'O');
+    }else {
+    
+    }
+  
     return (
       <>
       
         <h1>Tic Tac Toe</h1>
-        <div className = "status">{status}</div>
+        <div className = "status">{this.state.count >= this.state.squares.length? <p>
+          Draw
+        </p>: status
+        }</div>
         <div className="gameBaord">
           {/* 
         to get the 3X3 squares,
@@ -72,9 +82,9 @@ function findWinner(squares) {
     const [a, b,  c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a];
-    }
+    } 
   }
-  return null;
+  return null ;
 }
 export default App;
 
